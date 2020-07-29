@@ -25,7 +25,6 @@
         "symfony/serializer-pack": "*"
     },
     "require-dev": {
-        "symfony/web-server-bundle": "4.*"
     },
     "config": {
         "optimize-autoloader": true,
