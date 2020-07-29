@@ -25,6 +25,7 @@
         "symfony/serializer-pack": "*"
     },
     "require-dev": {
+        "symfony/web-server-bundle": "4.*"
     },
     "config": {
         "optimize-autoloader": true,
@@ -70,7 +71,7 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "5.1.*"
+            "require": "4.*"
         }
     }
 }
