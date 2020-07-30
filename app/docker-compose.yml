@@ -1,0 +1,63 @@
+version: "2"
+
+services:
+  hostel-web:
+    build: ./config/dockerfiles/nginx
+    image: nginx:latest
+    links:
+      - hostel-php
+    volumes:
+      - ./../app:/var/www/vhosts/symfony
+      - ./vendor:/vendor
+      - ./site.conf:/etc/nginx/conf.d/site.conf
+    container_name: ${PROJECT_NAME}-web
+    networks:
+      hostel:
+        ipv4_address: ${PROJECT_IP_PREFIX}.21
+  hostel-php:
+    build: ./config/dockerfiles/php/dev
+    image: hostel/php
+    volumes:
+      - ./../app:/var/www/vhosts/symfony
+      - ./vendor:/vendor
+      - ./config/dockerfiles/log.conf:/usr/local/etc/php-fpm.d/zz-log.conf
+    container_name: ${PROJECT_NAME}-php
+    working_dir: /var/www/vhosts/symfony/
+    environment:
+      XDEBUG_CONFIG: remote_host=${PROJECT_IP_PREFIX}.1
+      PHP_IDE_CONFIG: serverName=${PROJECT_IP_PREFIX}.21
+    depends_on:
+      - hostel-postgres
+    networks:
+      - hostel
+  hostel-postgres:
+    image: library/postgres:12.3-alpine
+    container_name: ${PROJECT_NAME}-postgres
+    volumes:
+      - ./postgres/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    networks:
+      hostel:
+        ipv4_address: ${PROJECT_IP_PREFIX}.20
+  hostel-test-postgres:
+    image: postgres:10.3
+    restart: always
+    container_name: ${PROJECT_NAME}-test-postgres
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    networks:
+      hostel:
+        ipv4_address: ${PROJECT_IP_PREFIX}.22
+networks:
+  hostel:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: ${PROJECT_IP_PREFIX}.0/16
+          gateway: ${PROJECT_IP_PREFIX}.1
