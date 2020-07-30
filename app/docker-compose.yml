@@ -52,7 +52,7 @@ services:
       - POSTGRES_DB=${POSTGRES_DB}
     networks:
       hostel:
-        ipv4_address: ${PROJECT_IP_PREFIX}.22
+        ipv4_address: ${PROJECT_IP_PREFIX}.11
 networks:
   hostel:
     driver: bridge

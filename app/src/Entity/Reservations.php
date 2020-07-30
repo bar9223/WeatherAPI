@@ -4,7 +4,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Team
+ * Reservations
  *
  * @ORM\Table(name="reservations")
  * @ORM\Entity
@@ -17,7 +17,7 @@ class Reservations
      * @ORM\Column(name="res_id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="res_id_seq", allocationSize=1, initialValue=1)
+     * @ORM\SequenceGenerator(sequenceName="reservations_res_id_seq", allocationSize=1, initialValue=1)
      */
     private $id;
 
