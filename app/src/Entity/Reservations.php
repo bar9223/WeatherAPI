@@ -43,14 +43,14 @@ class Reservations
     private $datetimeTo;
 
     /**
-     * @var Rooms
+     * @var Flats
      *
-     * @ORM\ManyToOne(targetEntity="Rooms")
+     * @ORM\ManyToOne(targetEntity="Flats")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="res_room", referencedColumnName="room_id")
+     *   @ORM\JoinColumn(name="res_flat", referencedColumnName="fl_id")
      * })
      */
-    private $room;
+    private $flat;
 
     /**
      * @return int
@@ -117,18 +117,18 @@ class Reservations
     }
 
     /**
-     * @return Rooms
+     * @return Flats
      */
-    public function getRoom(): Rooms
+    public function getFlat(): Flats
     {
-        return $this->room;
+        return $this->flat;
     }
 
     /**
-     * @param Rooms $room
+     * @param Flats $flat
      */
-    public function setRoom(Rooms $room): void
+    public function setFlat(Flats $flat): void
     {
-        $this->room = $room;
+        $this->flat = $flat;
     }
 }

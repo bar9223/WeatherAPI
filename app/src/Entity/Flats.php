@@ -4,29 +4,36 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Rooms
+ * Flats
  *
- * @ORM\Table(name="rooms")
+ * @ORM\Table(name="flats")
  * @ORM\Entity
  */
-class Rooms
+class Flats
 {
     /**
      * @var int
      *
-     * @ORM\Column(name="room_id", type="integer", nullable=false)
+     * @ORM\Column(name="fl_id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="SEQUENCE")
-     * @ORM\SequenceGenerator(sequenceName="rooms_room_id_seq", allocationSize=1, initialValue=1)
+     * @ORM\SequenceGenerator(sequenceName="flats_fl_id_seq", allocationSize=1, initialValue=1)
      */
     private $id;
 
     /**
      * @var integer|null
      *
-     * @ORM\Column(name="room_beds_nr", type="integer", length=16, nullable=true)
+     * @ORM\Column(name="fl_beds_nr", type="integer", length=16, nullable=true)
      */
     private $bedsNr;
+
+    /**
+     * @var integer|null
+     *
+     * @ORM\Column(name="fl_price", type="integer", length=16, nullable=true)
+     */
+    private $price;
 
     /**
      * @return int
@@ -60,5 +67,19 @@ class Rooms
         $this->bedsNr = $bedsNr;
     }
 
+    /**
+     * @return int|null
+     */
+    public function getPrice(): ?int
+    {
+        return $this->price;
+    }
 
+    /**
+     * @param int|null $price
+     */
+    public function setPrice(?int $price): void
+    {
+        $this->price = $price;
+    }
 }
