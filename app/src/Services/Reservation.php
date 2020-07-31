@@ -128,11 +128,11 @@ class Reservation
 
                 return $info;
             } else {
-                $info = 'Niestety w wybranym terminie nasz hostel jest zajęty. Prosimy sprawdzić inny termin';
+                $info = 'Niestety w wybranym terminie nasz hostel jest zajęty. Prosimy sprawdzić inny termin.';
                 return $info;
             }
         } else {
-            $info = 'Podane dane są nieprawidłowe, prosimy podać wymagane informacje';
+            $info = 'Podane dane są nieprawidłowe, prosimy podać wymagane informacje.';
             return $info;
         }
     }
