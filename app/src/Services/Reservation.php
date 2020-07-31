@@ -96,15 +96,23 @@ class Reservation
                     ->setParameter('date', new \DateTime($date));
                 $query = $qb->getQuery();
                 $list = $query->getResult();
-                foreach ($list as $key => $value) {
-                    $peopleNumber += $list[$key]['people'];
-                    $price = (float)$list[$key]['price']/100;
-                    $bedsNr = $list[$key]['bedsNr'];
-                }
+                if (!empty($list)) {
+                    foreach ($list as $key => $value) {
+                        $peopleNumber += $list[$key]['people'];
+                        $price = (float)$list[$key]['price']/100;
+                        $bedsNr = $list[$key]['bedsNr'];
+                    }
+                    if ($peopleNumber + $this->people > $bedsNr)  {
+                        $busy = true;
+                        break;
+                    }
 
-                if ($peopleNumber + $this->people > $bedsNr)  {
-                    $busy = true;
-                    break;
+                } else {
+                    /**
+                     * @var Flats $flat
+                     */
+                    $flat = $this->em->getRepository(Flats::class)->findAll();
+                    $price = $flat[0]->getPrice()/100;
                 }
             }
             if (!$busy) {
