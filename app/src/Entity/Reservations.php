@@ -19,28 +19,28 @@ class Reservations
      * @ORM\GeneratedValue(strategy="SEQUENCE")
      * @ORM\SequenceGenerator(sequenceName="reservations_res_id_seq", allocationSize=1, initialValue=1)
      */
-    private $id;
+    protected $id;
 
     /**
      * @var integer|null
      *
      * @ORM\Column(name="res_people", type="integer", length=16, nullable=true)
      */
-    private $people;
+    protected $people;
 
     /**
      * @var \DateTime|null
      *
      * @ORM\Column(name="res_datetime_from", type="datetime", nullable=true)
      */
-    private $datetimeFrom;
+    protected $datetimeFrom;
 
     /**
      * @var \DateTime|null
      *
      * @ORM\Column(name="res_datetime_to", type="datetime", nullable=true)
      */
-    private $datetimeTo;
+    protected $datetimeTo;
 
     /**
      * @var Flats
@@ -50,7 +50,7 @@ class Reservations
      *   @ORM\JoinColumn(name="res_flat", referencedColumnName="fl_id")
      * })
      */
-    private $flat;
+    protected $flat;
 
     /**
      * @return int

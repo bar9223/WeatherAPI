@@ -27,13 +27,9 @@ class ReservarionController extends AbstractController
     public function index()
     {
 
-        $this->reservationService->reservateBeds();
-        $reservation = $this->em->getRepository(Reservations::class)->findBy([
-            'id' => 1
-        ]);
-
+        $result = $this->reservationService->reservateHostel();
         return $this->render('index.html.twig', [
-            'reservation' => $reservation,
+            'result' => $result,
         ]);
     }
 }

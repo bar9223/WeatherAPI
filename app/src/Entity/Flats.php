@@ -19,21 +19,21 @@ class Flats
      * @ORM\GeneratedValue(strategy="SEQUENCE")
      * @ORM\SequenceGenerator(sequenceName="flats_fl_id_seq", allocationSize=1, initialValue=1)
      */
-    private $id;
+    protected $id;
 
     /**
      * @var integer|null
      *
      * @ORM\Column(name="fl_beds_nr", type="integer", length=16, nullable=true)
      */
-    private $bedsNr;
+    protected $bedsNr;
 
     /**
      * @var integer|null
      *
      * @ORM\Column(name="fl_price", type="integer", length=16, nullable=true)
      */
-    private $price;
+    protected $price;
 
     /**
      * @return int
