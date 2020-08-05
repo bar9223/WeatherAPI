@@ -8,7 +8,7 @@ use App\Services\Reservation;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ReservarionController extends AbstractController
+class ReservationController extends AbstractController
 {
     protected $em;
     protected $reservationService;
@@ -26,7 +26,6 @@ class ReservarionController extends AbstractController
      */
     public function index()
     {
-
         $result = $this->reservationService->reservateHostel();
         return $this->render('index.html.twig', [
             'result' => $result,
