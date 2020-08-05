@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Services;
+namespace App\Repository;
 
 
 use App\Entity\Flats;
@@ -60,21 +60,21 @@ class Reservation
     public function setReservation()
     {
         /**
-         * @var Flats $flat
+         * @var Flats $flats
          */
-        $flat = $this->em->getRepository(Flats::class)->findOneBy([
+        $flats = $this->em->getRepository(Flats::class)->findOneBy([
             'id' => 1,
         ]);
         $reservation = new Reservations();
         $reservation->setPeople($this->people);
-        $reservation->setDatetimeFrom(new \DateTime($this->dateFrom));
-        $reservation->setDatetimeTo(new \DateTime($this->dateTo));
-        $reservation->setFlat($flat);
+        $reservation->setDateFrom(new \DateTime($this->dateFrom));
+        $reservation->setDateTo(new \DateTime($this->dateTo));
+        $reservation->setFlats($flats);
         $this->em->persist($reservation);
         $this->em->flush();
     }
 
-    public function reservateHostel()
+    public function reserveHostel()
     {
         if ($this->filterGet()) {
             $busy = false;
@@ -92,7 +92,7 @@ class Reservation
                     ]
                 );
                 $qb->innerJoin(Flats::class, 'fl', 'WITH', 'res.flat = fl.id');
-                $qb->where(':date BETWEEN res.datetimeFrom AND res.datetimeTo')
+                $qb->where(':date BETWEEN res.dateFrom AND res.dateTo')
                     ->setParameter('date', new \DateTime($date));
                 $query = $qb->getQuery();
                 $list = $query->getResult();
@@ -109,10 +109,10 @@ class Reservation
 
                 } else {
                     /**
-                     * @var Flats $flat
+                     * @var Flats $flats
                      */
-                    $flat = $this->em->getRepository(Flats::class)->findAll();
-                    $price = $flat[0]->getPrice()/100;
+                    $flats = $this->em->getRepository(Flats::class)->findAll();
+                    $price = $flats[0]->getPrice()/100;
                 }
             }
             if (!$busy) {
@@ -165,10 +165,10 @@ class Reservation
     public function getDatePeriod()
     {
         $datesArray = [];
-        $date_from = strtotime($this->dateFrom); // Convert date to a UNIX timestamp
-        $date_to = strtotime($this->dateTo); // Convert date to a UNIX timestamp
+        $dateFrom = strtotime($this->dateFrom);
+        $dateTo = strtotime($this->dateTo);
 
-        for ($i=$date_from; $i<=$date_to; $i+=86400) {
+        for ($i = $dateFrom; $i <= $dateTo; $i += 86400) {
             $datesArray[] =  date("Y-m-d", $i);
         }
 

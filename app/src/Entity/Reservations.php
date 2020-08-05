@@ -31,16 +31,16 @@ class Reservations
     /**
      * @var \DateTime|null
      *
-     * @ORM\Column(name="res_datetime_from", type="datetime", nullable=true)
+     * @ORM\Column(name="res_date_from", type="datetime", nullable=true)
      */
-    protected $datetimeFrom;
+    protected $dateFrom;
 
     /**
      * @var \DateTime|null
      *
-     * @ORM\Column(name="res_datetime_to", type="datetime", nullable=true)
+     * @ORM\Column(name="res_date_to", type="datetime", nullable=true)
      */
-    protected $datetimeTo;
+    protected $dateTo;
 
     /**
      * @var Flats
@@ -50,7 +50,7 @@ class Reservations
      *   @ORM\JoinColumn(name="res_flat", referencedColumnName="fl_id")
      * })
      */
-    protected $flat;
+    protected $flats;
 
     /**
      * @return int
@@ -87,48 +87,48 @@ class Reservations
     /**
      * @return \DateTime|null
      */
-    public function getDatetimeFrom(): ?\DateTime
+    public function getDateFrom(): ?\DateTime
     {
-        return $this->datetimeFrom;
+        return $this->dateFrom;
     }
 
     /**
-     * @param \DateTime|null $datetimeFrom
+     * @param \DateTime|null $dateFrom
      */
-    public function setDatetimeFrom(?\DateTime $datetimeFrom): void
+    public function setDateFrom(?\DateTime $dateFrom): void
     {
-        $this->datetimeFrom = $datetimeFrom;
+        $this->dateFrom = $dateFrom;
     }
 
     /**
      * @return \DateTime|null
      */
-    public function getDatetimeTo(): ?\DateTime
+    public function getDateTo(): ?\DateTime
     {
-        return $this->datetimeTo;
+        return $this->dateTo;
     }
 
     /**
-     * @param \DateTime|null $datetimeTo
+     * @param \DateTime|null $dateTo
      */
-    public function setDatetimeTo(?\DateTime $datetimeTo): void
+    public function setDateTo(?\DateTime $dateTo): void
     {
-        $this->datetimeTo = $datetimeTo;
+        $this->dateTo = $dateTo;
     }
 
     /**
      * @return Flats
      */
-    public function getFlat(): Flats
+    public function getFlats(): Flats
     {
-        return $this->flat;
+        return $this->flats;
     }
 
     /**
-     * @param Flats $flat
+     * @param Flats $flats
      */
-    public function setFlat(Flats $flat): void
+    public function setFlats(Flats $flats): void
     {
-        $this->flat = $flat;
+        $this->flats = $flats;
     }
 }

@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Reservations;
 use App\EntityManagers\MainEntityManager;
-use App\Services\Reservation;
+use App\Repository\Reservation;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -26,7 +26,7 @@ class ReservationController extends AbstractController
      */
     public function index()
     {
-        $result = $this->reservationService->reservateHostel();
+        $result = $this->reservationService->reserveHostel();
         return $this->render('index.html.twig', [
             'result' => $result,
         ]);
