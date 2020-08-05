@@ -137,11 +137,6 @@ class Reservation
         }
     }
 
-    public function checkFlatStatus()
-    {
-
-    }
-
     public function numOfDays() : int
     {
         $dateFrom = new \DateTime($this->dateFrom);
