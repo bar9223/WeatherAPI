@@ -6,18 +6,18 @@ namespace App\Services;
 
 use App\Entity\WeatherStorage;
 
-class OpenWeatherApiService extends AbstractOpenWeatherApi
+class WeatherApiService extends AbstractOpenWeatherApi
 {
     /**
      * @param array $weatherData
      */
-    public function addSeachedWeatherToDb(array $weatherData) : void
+    public function addSeachedWeatherToDb(array $weatherData,string $avgTemperature) : void
     {
         $currentTime = new \DateTime('@'.strtotime('now'));
         $currentTimestamp = $currentTime->getTimestamp();
         $weatherStorage = new WeatherStorage();
         $weatherStorage->setCity($weatherData['city']);
-        $weatherStorage->setTemp($weatherData['temp']);
+        $weatherStorage->setTemp($avgTemperature);
         $weatherStorage->setTimestamp($currentTimestamp);
 
         $this->em->persist($weatherStorage);
@@ -64,5 +64,17 @@ class OpenWeatherApiService extends AbstractOpenWeatherApi
         }
 
         return $recentSearches;
+    }
+
+    /**
+     * @param string $openWeatherTemp
+     * @param string $weatherApiTemp
+     * @return string
+     */
+    public function getAvgTemperature(string $openWeatherTemp, string $weatherApiTemp) : string
+    {
+        $avgTemp = round(((float) $openWeatherTemp + (float) $weatherApiTemp) / 2, 2);
+
+        return (string) $avgTemp;
     }
 }

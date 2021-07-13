@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Entity\OpenWeatherMap;
 use App\Repository\OpenWeatherApi;
 use App\Repository\WeatherApi;
-use App\Services\OpenWeatherApiService;
+use App\Services\WeatherApiService;
 use Asana\Errors\NotFoundError;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,12 +15,11 @@ use Symfony\Component\HttpFoundation\Request;
 
 class WeatherController extends AbstractController
 {
+    private WeatherApiService $weatherApiService;
 
-    private OpenWeatherApiService $openWeatherApiService;
-
-    public function __construct(OpenWeatherApiService $openWeatherApiService)
+    public function __construct(WeatherApiService $weatherApiService)
     {
-        $this->openWeatherApiService = $openWeatherApiService;
+        $this->weatherApiService = $weatherApiService;
     }
 
     /**
@@ -73,12 +72,14 @@ class WeatherController extends AbstractController
             $weatherApi = new WeatherApi($city);
             $openWeatherResult = $openWeatherApi->getCurrentWeather();
             $weatherApiResult = $weatherApi->getCurrentWeather();
-            $this->openWeatherApiService->addSeachedWeatherToDb($openWeatherResult);
+            $avgTemperature = $this->weatherApiService->getAvgTemperature($openWeatherResult['temp'], $weatherApiResult['temp']);
+            $this->weatherApiService->addSeachedWeatherToDb($openWeatherResult, $avgTemperature);
 
             return $this->render('main/result.html.twig', [
                 'open_weather' => $openWeatherResult,
                 'weather_api' => $weatherApiResult,
-                'searches' => $this->openWeatherApiService->getRecentSearches()
+                'avg_temp' => $avgTemperature,
+                'searches' => $this->weatherApiService->getRecentSearches()
             ]);
         } catch (NotFoundError $exception) {
             $errorMessage = 'City not found, try again ! :)';
