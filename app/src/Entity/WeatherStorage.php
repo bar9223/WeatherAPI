@@ -37,11 +37,11 @@ class WeatherStorage
     private $temp;
 
     /**
-     * @var \DateTime
+     * @var int
      *
-     * @ORM\Column(name="ws_datetime", type="datetime", nullable=false)
+     * @ORM\Column(name="ws_timestamp", type="integer", nullable=false)
      */
-    private $date;
+    private $timestamp;
 
     /**
      * @return int
@@ -92,19 +92,19 @@ class WeatherStorage
     }
 
     /**
-     * @return \DateTime
+     * @return int
      */
-    public function getDate(): \DateTime
+    public function getTimestamp(): int
     {
-        return $this->date;
+        return $this->timestamp;
     }
 
     /**
-     * @param \DateTime $date
+     * @param int $timestamp
      */
-    public function setDate(\DateTime $date): void
+    public function setTimestamp(int $timestamp): void
     {
-        $this->date = $date;
+        $this->timestamp = $timestamp;
     }
 }
 

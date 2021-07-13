@@ -13,10 +13,12 @@ class OpenWeatherApiService extends AbstractOpenWeatherApi
      */
     public function addSeachedWeatherToDb(array $weatherData) : void
     {
+        $currentTime = new \DateTime('@'.strtotime('now'));
+        $currentTimestamp = $currentTime->getTimestamp();
         $weatherStorage = new WeatherStorage();
         $weatherStorage->setCity($weatherData['city']);
         $weatherStorage->setTemp($weatherData['temp']);
-        $weatherStorage->setDate(new \DateTime('@'.strtotime('now')));
+        $weatherStorage->setTimestamp($currentTimestamp);
 
         $this->em->persist($weatherStorage);
         $this->em->flush();
@@ -57,7 +59,7 @@ class OpenWeatherApiService extends AbstractOpenWeatherApi
                 $recentSearches[$key]['id'] = $search->getId();
                 $recentSearches[$key]['city'] = $search->getCity();
                 $recentSearches[$key]['temp'] = $search->getTemp();
-                $recentSearches[$key]['date'] = $search->getDate()->format('Y-m-d H:i:s');
+                $recentSearches[$key]['date'] = date('Y-m-d H:i:s', $search->getTimestamp());
             }
         }
 

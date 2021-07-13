@@ -17,11 +17,26 @@ class OpenWeatherApi
     public function __construct($city)
     {
         $this->validateOpenWeatherUrl($this->createUrl($city, 'weather'));
+        $this->setCurrentWeather($city);
+        $this->setWeatherForecast($city);
+    }
+
+    /**
+     * @param string $city
+     */
+    public function setCurrentWeather(string $city) : void
+    {
         $this->currentWeather = json_decode(
             file_get_contents($this->createUrl($city, 'weather')),
             true
         );
+    }
 
+    /**
+     * @param string $city
+     */
+    public function setWeatherForecast(string $city) : void
+    {
         $this->weatherForecast = json_decode(
             file_get_contents($this->createUrl($city, 'forecast')),
             true
@@ -41,6 +56,7 @@ class OpenWeatherApi
      */
     public function getCurrentWeather() : array
     {
+
         return [
             'city' => $this->currentWeather["name"],
             'temp' => $this->currentWeather["main"]["temp"],
@@ -49,8 +65,20 @@ class OpenWeatherApi
             'image' => $this->currentWeather["weather"][0]["icon"],
             'speed' => $this->currentWeather["wind"]["speed"],
             'main_info' => $this->getWeather(),
-            'time' => gmdate("H:m", $this->currentWeather['dt'])
+            'time' => $this->setProperTimeByDate($this->currentWeather["dt"])
         ];
+    }
+
+    /**
+     * @param string $date
+     *
+     * @return string
+     */
+    private function setProperTimeByDate(string $date)
+    {
+        $time = date('H:i', $date);
+
+        return $time;
     }
 
     /**

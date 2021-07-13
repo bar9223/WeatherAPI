@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\OpenWeatherMap;
 use App\Repository\OpenWeatherApi;
+use App\Repository\WeatherApi;
 use App\Services\OpenWeatherApiService;
 use Asana\Errors\NotFoundError;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -69,11 +70,14 @@ class WeatherController extends AbstractController
              * @var OpenWeatherApi $openWeatherApi
              */
             $openWeatherApi = new OpenWeatherApi($city);
-            $weatherResult = $openWeatherApi->getCurrentWeather();
-            $this->openWeatherApiService->addSeachedWeatherToDb($weatherResult);
+            $weatherApi = new WeatherApi($city);
+            $openWeatherResult = $openWeatherApi->getCurrentWeather();
+            $weatherApiResult = $weatherApi->getCurrentWeather();
+            $this->openWeatherApiService->addSeachedWeatherToDb($openWeatherResult);
 
             return $this->render('main/result.html.twig', [
-                'weather' => $weatherResult,
+                'open_weather' => $openWeatherResult,
+                'weather_api' => $weatherApiResult,
                 'searches' => $this->openWeatherApiService->getRecentSearches()
             ]);
         } catch (NotFoundError $exception) {
